@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('type_id')->index()->constrained('types');
+            $table->string('title');
             $table->date('created_at_time');
             $table->date('contracted_at');
             $table->date('deadline')->nullable();
