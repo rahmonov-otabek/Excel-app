@@ -79,7 +79,7 @@ class ProjectImport implements ToCollection, WithHeadingRow, WithValidation, Ski
         foreach($failures as $failure){ 
             foreach($failure->errors() as $error){
                 $map[] = [
-                    'key' => $failure->attribute(),
+                    'key' => $this->attributesMap()[$failure->attribute()],
                     'row' => $failure->row(),
                     'message' => $error,
                     'task_id' => 1,
@@ -89,6 +89,28 @@ class ProjectImport implements ToCollection, WithHeadingRow, WithValidation, Ski
 
         if(count($map)>0) FailedRow::insertFailedRows($map);
     }   
-    
+
+    private function attributesMap(): array
+    {
+        return [
+            'tip' => 'Тип',
+            'naimenovanie' => 'Наименование',
+            'data_sozdaniia' => 'Дата создания',
+            'podpisanie_dogovora' => 'Подписание договора',
+            'dedlain' => 'Дедлайн', 
+            'setevik' => 'Сетевик',
+            'nalicie_autsorsinga' => 'Наличие аутсорсинга',
+            'nalicie_investorov' => 'Наличие инвесторов',
+            'sdaca_v_srok' => 'Сдача в срок',
+            'vlozenie_v_pervyi_etap' => 'Вложение в первый этап',
+            'vlozenie_vo_vtoroi_etap' => 'Вложение во второй этап',
+            'vlozenie_v_tretii_etap' => 'Вложение в третий этап',
+            'vlozenie_v_cetvertyi_etap' => 'Вложение в четвертый этап',
+            'kolicestvo_ucastnikov' => 'Количество участников',
+            'kolicestvo_uslug' => 'Количество услуг',
+            'kommentarii' => 'Комментарий',
+            'znacenie_effektivnosti' => 'Значение эффективности',
+        ];
+    }  	 	     
 
 }
