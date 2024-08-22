@@ -54,7 +54,7 @@ class ProjectFactory
             $row['naimenovanie'],
             Date::excelToDateTimeObject($row['data_sozdaniia']),
             Date::excelToDateTimeObject($row['podpisanie_dogovora']),
-            isset($row['setevik']) ? Date::excelToDateTimeObject($row['dedlain']) : null,
+            isset($row['dedlain']) ? Date::excelToDateTimeObject($row['dedlain']) : null,
             isset($row['setevik']) ? self::getBool($row['setevik']) : null,
             isset($row['sdaca_v_srok']) ? self::getBool($row['sdaca_v_srok']) : null,
             isset($row['nalicie_autsorsinga']) ? self::getBool($row['nalicie_autsorsinga']) : null,
