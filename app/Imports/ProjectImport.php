@@ -6,6 +6,7 @@ use App\Models\Type;
 use App\Models\Project;
 use App\Factory\ProjectFactory;
 use App\Models\FailedRow;
+use App\Models\Task;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Validators\Failure;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -16,6 +17,16 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class ProjectImport implements ToCollection, WithHeadingRow, WithValidation, SkipsOnFailure
 {
+
+    private Task $task;
+
+    public function __construct($task)
+    {
+        $this->task = $task;
+    }
+
+
+
     /**
     * @param Collection $collection
     */
@@ -87,7 +98,7 @@ class ProjectImport implements ToCollection, WithHeadingRow, WithValidation, Ski
             }
         }
 
-        if(count($map)>0) FailedRow::insertFailedRows($map);
+        if(count($map)>0) FailedRow::insertFailedRows($map, $this->task);
     }   
 
     private function attributesMap(): array
