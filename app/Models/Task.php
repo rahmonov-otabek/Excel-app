@@ -32,4 +32,9 @@ class Task extends Model
     {
         return $this->belongsTo(File::class, 'file_id', 'id');
     }
+
+    public function failedRows()
+    {
+        return $this->hasMany(FailedRow::class, 'task_id', 'id');
+    }
 }

@@ -6,16 +6,22 @@
             <table class="border-collapse table-auto w-full text-sm">
                 <thead>
                 <tr>
+                    <th class="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">ID</th>
                     <th class="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">User</th>
                     <th class="border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">File</th>
                     <th class="border-b dark:border-slate-600 font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">Status</th>
+                    <th class="border-b dark:border-slate-600 font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">Failed Rows</th>
                 </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-slate-800">
                 <tr v-for="task in tasks.data">
+                    <td class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">{{ task.id }}</td>
                     <td class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">{{ task.user.name }}</td>
                     <td class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{  task.file.path }}</td>
                     <td class="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">{{ task.status }}</td>
+                    <td class="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">
+                        <Link v-if="task.failed_rows_count > 0" class="text-skay-500" :href="route('task.failed_list', task.id)">Failed Rows</Link>
+                    </td>
                 </tr> 
                 </tbody>
             </table>
@@ -27,11 +33,15 @@
 
 <script>
 import MainLayout from '@/Layouts/MainLayout.vue';
+import { Link } from '@inertiajs/vue3';
 
 export default{
-    name: 'MainLayout',
-
+    name: 'MainLayout', 
     layout: MainLayout,
+
+    components: {
+        Link
+    },
 
     props: [
         'tasks',
