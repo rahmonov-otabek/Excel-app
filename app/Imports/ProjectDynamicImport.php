@@ -102,26 +102,22 @@ class ProjectDynamicImport implements ToCollection, WithValidation, SkipsOnFailu
     }
 
     public function rules(): array
-    {
-        return [
-            // 'tip' => 'required|string',
-            // 'naimenovanie' => 'required|string',
-            // 'data_sozdaniia' => 'required|integer',
-            // 'podpisanie_dogovora' => 'required|integer',
-            // 'dedlain' => 'nullable|integer', 
-            // 'setevik' => 'nullable|string',
-            // 'nalicie_autsorsinga' => 'nullable|string',
-            // 'nalicie_investorov' => 'nullable|string',
-            // 'sdaca_v_srok' => 'nullable|string',
-            // 'vlozenie_v_pervyi_etap' => 'nullable|integer',
-            // 'vlozenie_vo_vtoroi_etap' => 'nullable|integer',
-            // 'vlozenie_v_tretii_etap' => 'nullable|integer',
-            // 'vlozenie_v_cetvertyi_etap' => 'nullable|integer',
-            // 'kolicestvo_ucastnikov' => 'nullable|integer',
-            // 'kolicestvo_uslug' => 'nullable|integer',
-            // 'kommentarii' => 'nullable|string',
-            // 'znacenie_effektivnosti' => 'nullable|numeric',
-        ];
+    { 
+        return array_replace([
+            '0' => 'required|string',
+            '1' => 'required|string',
+            '2' => 'required|integer',
+            '9' => 'required|integer',
+            '7' => 'nullable|integer', 
+            '3' => 'nullable|string',
+            '5' => 'nullable|string',
+            '6' => 'nullable|string',
+            '8' => 'nullable|string', 
+            '4' => 'nullable|integer',
+            '10' => 'nullable|integer',
+            '11' => 'nullable|string',
+            '12' => 'nullable|numeric',
+        ], $this->getDynamicValidation());
     }   
     
     public function onFailure(Failure ...$failures)
@@ -143,25 +139,21 @@ class ProjectDynamicImport implements ToCollection, WithValidation, SkipsOnFailu
 
     private function attributesMap(): array
     {
-        return [
-            'tip' => 'Тип',
-            'naimenovanie' => 'Наименование',
-            'data_sozdaniia' => 'Дата создания',
-            'podpisanie_dogovora' => 'Подписание договора',
-            'dedlain' => 'Дедлайн', 
-            'setevik' => 'Сетевик',
-            'nalicie_autsorsinga' => 'Наличие аутсорсинга',
-            'nalicie_investorov' => 'Наличие инвесторов',
-            'sdaca_v_srok' => 'Сдача в срок',
-            'vlozenie_v_pervyi_etap' => 'Вложение в первый этап',
-            'vlozenie_vo_vtoroi_etap' => 'Вложение во второй этап',
-            'vlozenie_v_tretii_etap' => 'Вложение в третий этап',
-            'vlozenie_v_cetvertyi_etap' => 'Вложение в четвертый этап',
-            'kolicestvo_ucastnikov' => 'Количество участников',
-            'kolicestvo_uslug' => 'Количество услуг',
-            'kommentarii' => 'Комментарий',
-            'znacenie_effektivnosti' => 'Значение эффективности',
-        ];
+        return array_replace([
+            '0' => 'Тип',
+            '1' => 'Наименование',
+            '2' => 'Дата создания',
+            '9' => 'Подписание договора',
+            '7' => 'Дедлайн', 
+            '3' => 'Сетевик',
+            '5' => 'Наличие аутсорсинга',
+            '6' => 'Наличие инвесторов',
+            '8' => 'Сдача в срок', 
+            '4' => 'Количество участников',
+            '10' => 'Количество услуг',
+            '11' => 'Комментарий',
+            '12' => 'Значение эффективности',
+        ], $this->getRowsMap(self::$headings)['dynamic']);
     }  	 
     
     public function startRow(): int
@@ -172,5 +164,14 @@ class ProjectDynamicImport implements ToCollection, WithValidation, SkipsOnFailu
     public static function beforeSheet(BeforeSheet $event)
     {
         self::$headings = $event->getSheet()->getDelegate()->toArray()[0];
+    }
+
+    private function getDynamicValidation(): array
+    {
+        $headers = $this->getRowsMap(self::$headings)['dynamic'];
+        foreach ($headers as $key => $value){
+            $headers[$key] = 'required|integer';
+        }
+        return $headers; 
     }
 }
