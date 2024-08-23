@@ -8,7 +8,7 @@ if(!function_exists('processFailures')){
         foreach($failures as $failure){ 
             foreach($failure->errors() as $error){
                 $map[] = [
-                    'key' => $attributesMap()[$failure->attribute()],
+                    'key' => $attributesMap[$failure->attribute()],
                     'row' => $failure->row(),
                     'message' => $error,
                     'task_id' => $task->id,
