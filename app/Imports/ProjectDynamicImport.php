@@ -122,19 +122,7 @@ class ProjectDynamicImport implements ToCollection, WithValidation, SkipsOnFailu
     
     public function onFailure(Failure ...$failures)
     {
-        $map = [];
-        foreach($failures as $failure){ 
-            foreach($failure->errors() as $error){
-                $map[] = [
-                    'key' => $this->attributesMap()[$failure->attribute()],
-                    'row' => $failure->row(),
-                    'message' => $error,
-                    'task_id' => $this->task->id,
-                ];
-            }
-        }
-
-        if(count($map)>0) FailedRow::insertFailedRows($map, $this->task);
+        processFailures($failures, $this->attributesMap(), $this->task);
     }   
 
     private function attributesMap(): array
